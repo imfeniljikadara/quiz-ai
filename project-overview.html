@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz AI - Project Overview</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #1e40af;
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        h3 {
+            color: #3b82f6;
+            margin-top: 30px;
+        }
+        .diagram-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+        }
+        /* Enhanced styling for diagrams */
+        .diagram-container.enhanced {
+            padding: 40px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin: 40px 0;
+            overflow-x: auto;
+        }
+        .diagram {
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+        .component-box {
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            background-color: #f0f7ff;
+        }
+        .file-structure {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .tech-item {
+            background-color: #e0e7ff;
+            color: #4338ca;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .flow-diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .mermaid {
+            margin: 0 auto;
+            overflow: auto;
+            font-size: 18px;
+        }
+        /* Enhanced styling for diagrams */
+        .diagram-container.enhanced {
+            padding: 40px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin: 40px 0;
+            overflow-x: auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({ 
+                startOnLoad: true,
+                theme: 'default',
+                securityLevel: 'loose',
+                flowchart: { 
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'linear',
+                    nodeSpacing: 80,
+                    rankSpacing: 100
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Quiz AI - Project Overview</h1>
+        <p>Generate interactive quizzes from any webpage content using AI</p>
+    </header>
+
+    <h2>Project Description</h2>
+    <p>
+        Quiz AI is a Chrome extension that generates interactive quizzes from any webpage content using artificial intelligence.
+        The extension extracts content from the current webpage and uses Google's Gemini 1.5 Pro API to generate quizzes
+        based on user preferences (quiz type, difficulty, and number of questions).
+    </p>
+    <p>
+        Users can take the generated quizzes, check their answers, and review correct answers to test their understanding
+        of the webpage content.
+    </p>
+
+    <h2>Technology Stack</h2>
+    <div class="tech-stack">
+        <div class="tech-item">JavaScript</div>
+        <div class="tech-item">Chrome Extension API</div>
+        <div class="tech-item">HTML/CSS</div>
+        <div class="tech-item">Tailwind CSS</div>
+        <div class="tech-item">Google Gemini API</div>
+        <div class="tech-item">JSON</div>
+    </div>
+
+    <h2>High-Level Architecture</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    User[User] --- Browser[Chrome Browser]
+    Browser --- Extension[Quiz AI Extension]
+    Extension --- Popup[Popup Interface]
+    Extension --- ContentScript[Content Script]
+    Extension --- BackgroundService[Background Service]
+    ContentScript --- WebpageContent[Webpage Content]
+    Popup --- GeminiAPI[Google Gemini API]
+    
+    subgraph "Extension Components"
+        PopupUI[Popup UI] --- QuizConfig[Quiz Configuration]
+        QuizConfig --- QuizGeneration[Quiz Generation]
+        QuizGeneration --- QuizDisplay[Quiz Display]
+        QuizDisplay --- Scoring[Scoring System]
+    end
+    
+    subgraph "Content Script Components"
+        ContentExtraction[Content Extraction] --- ContentCleaning[Content Cleaning]
+        ContentCleaning --- ContentFormatting[Content Formatting]
+    end
+    
+    Extension --- Extension_Components[Extension Components]
+    ContentScript --- Content_Script_Components[Content Script Components]
+    
+    classDef browser fill:#d1e7dd,stroke:#20c997;
+    classDef extension fill:#cfe2ff,stroke:#0d6efd;
+    classDef content fill:#e2e3e5,stroke:#6c757d;
+    classDef api fill:#f8d7da,stroke:#dc3545;
+    
+    class Browser browser;
+    class Extension extension;
+    class ContentScript content;
+    class GeminiAPI api;
+        </div>
+    </div>
+
+    <h2>Detailed Component Architecture</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Popup"
+        PopupHTML["popup.html"] --> UIElements["UI Elements"]
+        UIElements --> QuizTypeSelect["Quiz Type Selection"]
+        UIElements --> DifficultySelect["Difficulty Selection"]
+        UIElements --> QuestionCountInput["Question Count Input"]
+        UIElements --> GenerateButton["Generate Button"]
+        UIElements --> LoadingIndicator["Loading Indicator"]
+        UIElements --> QuizContainer["Quiz Container"]
+        
+        PopupJS["popup.js"] --> EventListeners["Event Listeners"]
+        EventListeners --> GenerateButtonClick["Generate Button Click"]
+        EventListeners --> FormSubmit["Form Submit"]
+        EventListeners --> ShowAnswersClick["Show Answers Click"]
+        
+        PopupJS --> APIIntegration["API Integration"]
+        APIIntegration --> GenerateQuizFunc["generateQuiz() Function"]
+        APIIntegration --> ParseQuizFunc["parseQuizResponse() Function"]
+        
+        PopupJS --> UIFunctions["UI Functions"]
+        UIFunctions --> DisplayQuizFunc["displayQuiz() Function"]
+        UIFunctions --> CheckAnswersFunc["checkAnswers() Function"]
+        UIFunctions --> DisplayAnswersFunc["displayAnswers() Function"]
+    end
+    
+    subgraph "Content Script"
+        ContentJS["content.js"] --> MessageListener["Message Listener"]
+        MessageListener --> GetPageContentAction["getPageContent Action"]
+        ContentJS --> ExtractContentFunc["extractPageContent() Function"]
+        ExtractContentFunc --> ArticleExtraction["Article Extraction"]
+        ExtractContentFunc --> MainExtraction["Main Tag Extraction"]
+        ExtractContentFunc --> ContainerExtraction["Container Extraction"]
+        ExtractContentFunc --> BodyCloneExtraction["Body Clone Extraction"]
+        ExtractContentFunc --> ContentCleaning["Content Cleaning"]
+    end
+    
+    subgraph "Background Service"
+        BackgroundJS["background.js"] --> InstallListener["Install Listener"]
+        BackgroundJS --> MessageListener2["Message Listener"]
+        MessageListener2 --> SaveQuizAction["saveQuiz Action"]
+        SaveQuizAction --> StorageAPI["Chrome Storage API"]
+    end
+    
+    PopupJS -.-> ContentJS["Sends Messages"]
+    ContentJS -.-> PopupJS["Returns Content"]
+    PopupJS -.-> BackgroundJS["Sends Quiz Data"]
+    
+    classDef popup fill:#f0f7ff,stroke:#3b82f6;
+    classDef content fill:#f0fdf4,stroke:#22c55e;
+    classDef background fill:#fef3c7,stroke:#d97706;
+    
+    class Popup popup;
+    class Content_Script content;
+    class Background_Service background;
+        </div>
+    </div>
+
+    <h2>Project Structure</h2>
+    <div class="file-structure">
+quiz-ai/
+├── manifest.json       # Extension configuration
+├── popup.html          # User interface
+├── popup.js            # Main functionality
+├── content.js          # Page content extraction
+├── background.js       # Background service worker
+├── images/             # Extension icons
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
+├── README.md           # Documentation
+└── LICENSE             # MIT License
+</div>
+
+    <h2>Data Flow Diagram</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+            sequenceDiagram
+                participant User
+                participant Popup as Popup UI
+                participant Content as Content Script
+                participant API as Gemini API
+                participant Background as Background Service
+                
+                User->>Popup: Click Extension Icon
+                Popup->>User: Display Quiz Configuration
+                User->>Popup: Set Quiz Parameters
+                User->>Popup: Click "Generate Quiz"
+                Popup->>Popup: Show Loading State
+                Popup->>Content: Request Page Content
+                Content->>Content: Extract Content
+                Content->>Popup: Return Page Content
+                Popup->>API: Send Content + Parameters
+                API->>Popup: Return Generated Quiz
+                Popup->>Popup: Parse Quiz Response
+                Popup->>Popup: Display Quiz
+                User->>Popup: Complete Quiz
+                User->>Popup: Submit Quiz
+                Popup->>Popup: Calculate Score
+                Popup->>Popup: Display Results
+                User->>Popup: Click "Show Answers"
+                Popup->>Popup: Display Correct Answers
+                User->>Popup: Save Quiz (Optional)
+                Popup->>Background: Send Quiz Data
+                Background->>Background: Store Quiz
+        </div>
+    </div>
+
+    <h2>Detailed API Integration</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Chrome Extension API"
+        Tabs["chrome.tabs"] --- Query["query()"]
+        Tabs --- SendMessage["sendMessage()"]
+        Scripting["chrome.scripting"] --- ExecuteScript["executeScript()"]
+        Runtime["chrome.runtime"] --- OnMessage["onMessage"]
+        Runtime --- SendMessage2["sendMessage()"]
+        Storage["chrome.storage"] --- LocalSet["local.set()"]
+        Storage --- LocalGet["local.get()"]
+    end
+    
+    subgraph "Gemini API"
+        GenerateContent["generateContent"] --- Prompt["Prompt Construction"]
+        GenerateContent --- Response["Response Parsing"]
+        GenerateContent --- Config["Generation Config"]
+        Config --- Temperature["temperature"]
+        Config --- MaxTokens["maxOutputTokens"]
+        Config --- SafetySettings["safetySettings"]
+    end
+    
+    Query --- GetActiveTab["Get Active Tab"]
+    ExecuteScript --- InjectContentScript["Inject Content Script"]
+    SendMessage --- RequestContent["Request Page Content"]
+    OnMessage --- HandleMessages["Handle Messages"]
+    SendMessage2 --- SaveQuiz["Save Quiz"]
+    LocalSet --- StoreQuiz["Store Quiz Data"]
+    
+    GenerateContent --- CreateQuiz["Create Quiz"]
+    Prompt --- ContentFormatting["Format Content"]
+    Response --- ParseJSON["Parse JSON Response"]
+    
+    classDef chrome fill:#dbeafe,stroke:#3b82f6;
+    classDef gemini fill:#dcfce7,stroke:#22c55e;
+    
+    class Chrome_Extension_API chrome;
+    class Gemini_API gemini;
+        </div>
+    </div>
+
+    <h2>Extension Activation Flow</h2>
+    <div class="diagram-container enhanced">
+        <div class="mermaid">
+graph LR
+    A["User Clicks Extension Icon"] --> B["Load popup.html"]
+    B --> C["Execute popup.js"]
+    C --> D["Add Event Listeners"]
+    D --> E["Wait for User Input"]
+    E --> F["User Configures Quiz"]
+    F --> G["User Clicks Generate"]
+    G --> H["Get Current Tab"]
+    H --> I["Inject Content Script"]
+    I --> J["Request Page Content"]
+    J --> K["Process Content"]
+    K --> L["Call Gemini API"]
+    L --> M["Display Quiz"]
+    
+    style A fill:#d4f4e2,stroke:#34d399,stroke-width:3px,color:#065f46,font-weight:bold
+    style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style C fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style D fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style E fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style F fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style G fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style H fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style I fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style J fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style K fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style L fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style M fill:#d4f4e2,stroke:#34d399,stroke-width:3px,color:#065f46,font-weight:bold
+        </div>
+    </div>
+
+    <h2>User Flow</h2>
+    <div class="diagram-container enhanced">
+        <div class="mermaid">
+graph LR
+    A["Start"] --> B["Browse a Webpage"]
+    B --> C["Click Quiz AI Icon"]
+    C --> D["Select Quiz Type"]
+    D --> E["Choose Difficulty"]
+    E --> F["Set Question Count"]
+    F --> G["Click Generate Quiz"]
+    G --> H["Wait for Generation"]
+    H --> I["Take Quiz"]
+    I --> J["Submit Answers"]
+    J --> K["View Score"]
+    K --> L["Review Correct Answers"]
+    
+    style A fill:#d4f4e2,stroke:#34d399,stroke-width:3px,color:#065f46,font-weight:bold
+    style B fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style C fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style D fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style E fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style F fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style G fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style H fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style I fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style J fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+    style K fill:#fecaca,stroke:#ef4444,stroke-width:3px,color:#7f1d1d,font-weight:bold
+    style L fill:#dbeafe,stroke:#3b82f6,stroke-width:2px,color:#1e40af
+        </div>
+    </div>
+
+    <h2>Content Extraction Implementation</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Content Extraction Process"
+        Start[Start Extraction] --> CheckArticle[Check for Article Tag]
+        CheckArticle --> ArticleExists{Article Exists?}
+        ArticleExists -->|Yes| ExtractArticle[Extract Article Text]
+        ArticleExists -->|No| CheckMain[Check for Main Tag]
+        
+        CheckMain --> MainExists{Main Exists?}
+        MainExists -->|Yes| ExtractMain[Extract Main Text]
+        MainExists -->|No| CheckContainers[Check Common Containers]
+        
+        CheckContainers --> ContainerExists{Container Exists?}
+        ContainerExists -->|Yes| ExtractContainer[Extract Container Text]
+        ContainerExists -->|No| CloneBody[Clone Body Element]
+        
+        CloneBody --> RemoveNonContent[Remove Non-Content Elements]
+        RemoveNonContent --> ExtractBodyText[Extract Body Text]
+        
+        ExtractArticle --> CleanContent[Clean Content]
+        ExtractMain --> CleanContent
+        ExtractContainer --> CleanContent
+        ExtractBodyText --> CleanContent
+        
+        CleanContent --> TrimWhitespace[Trim Whitespace]
+        TrimWhitespace --> NormalizeSpaces[Normalize Spaces]
+        NormalizeSpaces --> LimitLength[Limit Content Length]
+        LimitLength --> ReturnContent[Return Content]
+    end
+    
+    classDef process fill:#f0f7ff,stroke:#3b82f6;
+    class Content_Extraction_Process process;
+        </div>
+    </div>
+
+    <h2>Quiz Generation Process</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+sequenceDiagram
+    participant Popup as Popup.js
+    participant API as Gemini API
+    participant Parser as Response Parser
+    participant Display as Quiz Display
+    
+    Popup->>Popup: Call generateQuiz()
+    Popup->>Popup: Prepare API URL and Key
+    Popup->>Popup: Construct Prompt
+    Note over Popup: Include content, quiz type, difficulty, and question count
+    Popup->>API: Send API Request
+    API->>API: Process Content
+    API->>API: Generate Quiz Questions
+    API->>Popup: Return JSON Response
+    Popup->>Parser: Parse Response
+    Parser->>Parser: Extract JSON
+    Parser->>Parser: Validate Structure
+    Parser->>Popup: Return Structured Quiz
+    Popup->>Display: Call displayQuiz()
+    Display->>Display: Generate HTML
+    Display->>Display: Add Event Listeners
+    Display->>Popup: Show Quiz UI
+        </div>
+    </div>
+
+    <h2>Quiz Display Implementation</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    DisplayQuiz["displayQuiz() Function"] --> GenerateHTML["Generate Quiz HTML"]
+    GenerateHTML --> CreateForm["Create Quiz Form"]
+    CreateForm --> AddQuestions["Add Questions"]
+    AddQuestions --> AddOptions["Add Answer Options"]
+    AddOptions --> AddButtons["Add Submit/Show Answers Buttons"]
+    
+    AddButtons --> AttachListeners["Attach Event Listeners"]
+    AttachListeners --> FormSubmit["Form Submit Listener"]
+    AttachListeners --> ShowAnswersClick["Show Answers Button Listener"]
+    
+    FormSubmit --> CheckAnswers["checkAnswers() Function"]
+    CheckAnswers --> CalculateScore["Calculate Score"]
+    CheckAnswers --> DisplayScore["Display Score"]
+    
+    ShowAnswersClick --> DisplayAnswers["displayAnswers() Function"]
+    DisplayAnswers --> ShowCorrectAnswers["Show Correct Answers"]
+    DisplayAnswers --> HighlightOptions["Highlight Options"]
+    
+    classDef display fill:#f0f7ff,stroke:#3b82f6
+    class DisplayQuiz,GenerateHTML,CreateForm,AddQuestions,AddOptions,AddButtons,AttachListeners,FormSubmit,ShowAnswersClick,CheckAnswers,CalculateScore,DisplayScore,DisplayAnswers,ShowCorrectAnswers,HighlightOptions display
+        </div>
+    </div>
+
+    <h2>Message Passing Architecture</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+sequenceDiagram
+    participant Popup as Popup (popup.js)
+    participant Content as Content Script (content.js)
+    participant Background as Background Service (background.js)
+    
+    Note over Popup,Background: Chrome Extension Message Passing
+    
+    Popup->>Content: chrome.tabs.sendMessage({action: "getPageContent"})
+    Content->>Content: Extract page content
+    Content->>Popup: sendResponse({content, success: true})
+    
+    Popup->>Background: chrome.runtime.sendMessage({action: "saveQuiz", quiz: quizData})
+    Background->>Background: Store quiz in chrome.storage.local
+    Background->>Popup: sendResponse({success: true})
+        </div>
+    </div>
+
+    <h2>State Management Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Extension State"
+        ExtensionState[Extension State] --> UIState[UI State]
+        ExtensionState --> QuizState[Quiz State]
+        ExtensionState --> StorageState[Storage State]
+        
+        UIState --> LoadingState[Loading State]
+        UIState --> QuizDisplayState[Quiz Display State]
+        UIState --> ErrorState[Error State]
+        
+        QuizState --> QuizConfig[Quiz Configuration]
+        QuizState --> QuizQuestions[Quiz Questions]
+        QuizState --> UserAnswers[User Answers]
+        QuizState --> QuizResults[Quiz Results]
+        
+        StorageState --> SavedQuizzes[Saved Quizzes]
+    end
+    
+    classDef state fill:#f0f7ff,stroke:#3b82f6;
+    class Extension_State state;
+        </div>
+    </div>
+
+    <h2>Quiz Response Format</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Quiz JSON Format"
+        QuizJSON[Quiz JSON Array] --> Question1[Question 1]
+        QuizJSON --> Question2[Question 2]
+        QuizJSON --> QuestionN[Question N]
+        
+        Question1 --> Q1Text[question]
+        Question1 --> Q1Options[options]
+        Question1 --> Q1Answer[correct_answer]
+        
+        Q1Options --> Option1[Option 1]
+        Q1Options --> Option2[Option 2]
+        Q1Options --> Option3[Option 3]
+        Q1Options --> Option4[Option 4]
+    end
+    
+    classDef json fill:#f0f7ff,stroke:#3b82f6;
+    class Quiz_JSON_Format json;
+        </div>
+    </div>
+
+    <h2>Development Workflow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+sequenceDiagram
+    participant Developer
+    participant Git as Git Repository
+    participant Chrome as Chrome Browser
+    participant Extension as Extension Manager
+    
+    Developer->>Git: Clone Repository
+    Developer->>Developer: Edit Source Files
+    Developer->>Chrome: Open chrome://extensions
+    Developer->>Extension: Enable Developer Mode
+    Developer->>Extension: Load Unpacked Extension
+    Chrome->>Developer: Test Extension
+    Developer->>Developer: Make Changes
+    Developer->>Chrome: Reload Extension
+    Developer->>Git: Commit Changes
+        </div>
+    </div>
+
+    <h2>Future Enhancements</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    subgraph "Planned Features"
+        Export[Export Functionality] --> ExportPDF[Export to PDF]
+        Export --> ExportCSV[Export to CSV]
+        
+        Templates[Quiz Templates] --> SubjectTemplates[Subject-Specific Templates]
+        Templates --> CustomTemplates[Custom Templates]
+        Templates --> SavedTemplates[Saved Templates]
+        
+        History[Quiz History] --> SavedQuizzes[Saved Quizzes]
+        History --> QuizStats[Quiz Statistics]
+        History --> ProgressTracking[Progress Tracking]
+        
+        Integration[Additional Integrations] --> LMSIntegration[LMS Integration]
+        Integration --> SocialSharing[Social Sharing]
+        Integration --> AIImprovements[Enhanced AI Models]
+    end
+    
+    classDef future fill:#f0f7ff,stroke:#3b82f6;
+    class Planned_Features future;
+        </div>
+    </div>
+
+    <h2>Getting Started</h2>
+    <p>To run the extension locally:</p>
+    <ol>
+        <li>Clone the repository
+            <ul>
+                <li><code>git clone https://github.com/imfeniljikadara/quiz-ai.git</code></li>
+            </ul>
+        </li>
+        <li>Configure the API key:
+            <ul>
+                <li>Get a Google API key from <a href="https://makersuite.google.com/app/apikey" style="color: #3b82f6; text-decoration: none;">Google AI Studio</a></li>
+                <li>Add your API key to <code>popup.js</code></li>
+            </ul>
+        </li>
+        <li>Load the extension in Chrome:
+            <ul>
+                <li>Open Chrome and navigate to <code>chrome://extensions/</code></li>
+                <li>Enable "Developer mode" in the top right</li>
+                <li>Click "Load unpacked" and select the extension directory</li>
+            </ul>
+        </li>
+        <li>Use the extension:
+            <ul>
+                <li>Click the Quiz AI icon while on any webpage</li>
+                <li>Select your quiz preferences</li>
+                <li>Click "Generate Quiz"</li>
+                <li>Take the quiz and check your understanding!</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>Conclusion</h2>
+    <p>
+        Quiz AI is a powerful Chrome extension that leverages artificial intelligence to generate interactive quizzes from any webpage content.
+        With its intuitive interface and seamless integration with Google's Gemini API, Quiz AI makes it easy to test your understanding of any online material.
+    </p>
+    <p>
+        The extension's architecture utilizes Chrome's Extension API and modern web technologies to provide a smooth quiz generation and taking experience,
+        while its modular design makes it easy to extend with new features in the future.
+    </p>
+
+    <footer style="margin-top: 50px; text-align: center; color: #6c757d; font-size: 0.9em;">
+        <p>Generated on April 14, 2025</p>
+    </footer>
+
+    <script>
+        // Initialize all mermaid diagrams
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+    </script>
+</body>
+</html>
